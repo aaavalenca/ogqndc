@@ -1,0 +1,43 @@
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 100%;
+  height: 100vh;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative; */
+}
+
+.responsive-image {
+  width: 100%; /* Fully responsive */
+  height: auto; /* Maintain aspect ratio */
+  cursor: zoom-in; /* Indicate zooming */
+}
+
+.button-container {
+  position: fixed;
+  bottom: 0; /* Position at the bottom of the viewport */
+  left: 0; /* Align with the left edge */
+  width: 100%; /* Span the full width of the screen */
+  background: rgba(0, 0, 0, 0.8); /* Optional: Add a semi-transparent background */
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center horizontally */
+  padding: 10px; /* Add some spacing inside the container */
+  z-index: 100; /* Ensure the buttons stay above other content */
+}
+
+.button-container button {
+  margin: 0 10px; /* Add space between buttons */
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #0056b3; /* Change color on hover */
+}
