@@ -2,17 +2,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* width: 100%;
-  height: 100vh;
-  max-width: 800px;
+  width: 100%;
   margin: 0 auto;
-  position: relative; */
+  position: relative;
 }
 
 .responsive-image {
-  width: 100%; /* Fully responsive */
+  transition: transform 0.3s ease; /* Smooth zoom effect */
+  cursor: pointer; /* Indicate interactivity */
+}
+
+/* Additional modifier classes for zoom behavior */
+.responsive-image.width-fit {
+  width: 100%; /* Fit width fully */
   height: auto; /* Maintain aspect ratio */
-  cursor: zoom-in; /* Indicate zooming */
+}
+
+.responsive-image.height-fit {
+  height: 100%; /* Fit height fully */
+  width: auto; /* Maintain aspect ratio */
 }
 
 .button-container {

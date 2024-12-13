@@ -9,6 +9,12 @@ const ComicReader: React.FC = () => {
 
   const currentPage = comicData[currentPageIndex];
   const currentPanel = currentPage.panels[currentPanelIndex];
+  const [isWidthFit, setIsWidthFit] = useState(true); // Toggles between width and height fitting modes
+
+  const handleToggleZoom = () => {
+    setIsWidthFit((prev) => !prev);
+  };
+
 
   const nextPanel = () => {
     if (currentPanelIndex < currentPage.panels.length - 1) {
@@ -46,9 +52,9 @@ const ComicReader: React.FC = () => {
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
-        nextPage();
-      } else if (event.key === "ArrowLeft") {
         previousPage();
+      } else if (event.key === "ArrowLeft") {
+        nextPage();
       }
     };
 
@@ -89,7 +95,10 @@ const ComicReader: React.FC = () => {
       <img
         src={currentPage.page}
         alt={currentPage.overall}
-        className={styles["responsive-image"]}
+        className={`${styles['responsive-image']} ${
+            isWidthFit ? styles['width-fit'] : styles['height-fit']
+          }`}
+        onClick={handleToggleZoom}
       />
     </div>
 
