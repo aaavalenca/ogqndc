@@ -1,51 +1,53 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
 .image-container {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin: 0 auto;
+  overflow: hidden;
   position: relative;
 }
 
 .responsive-image {
-  transition: transform 0.3s ease; /* Smooth zoom effect */
-  cursor: pointer; /* Indicate interactivity */
-}
-
-/* Additional modifier classes for zoom behavior */
-.responsive-image.width-fit {
-  width: 100%; /* Fit width fully */
-  height: auto; /* Maintain aspect ratio */
-}
-
-.responsive-image.height-fit {
-  height: 100%; /* Fit height fully */
-  width: auto; /* Maintain aspect ratio */
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
 }
 
 .button-container {
-  position: fixed;
-  bottom: 0; /* Position at the bottom of the viewport */
-  left: 0; /* Align with the left edge */
-  width: 100%; /* Span the full width of the screen */
-  background: rgba(0, 0, 0, 0.8); /* Optional: Add a semi-transparent background */
-  display: flex; /* Use flexbox for layout */
-  justify-content: center; /* Center horizontally */
-  padding: 10px; /* Add some spacing inside the container */
-  z-index: 100; /* Ensure the buttons stay above other content */
+  position: relative;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  /* height: 5vh; */
+  width: 100%; /* Ensures it fits the viewport width */
+  box-sizing: border-box; /* Includes padding in width calculation */
 }
 
+
 .button-container button {
-  margin: 0 10px; /* Add space between buttons */
+  margin: 0 10px;
   padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
+  font-size: clamp(12px, 2vw, 16px);
+  background-color: #3c3c3c;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.button-container button:hover {
-  background-color: #0056b3; /* Change color on hover */
+.button-container button:disabled {
+  background-color: #ccc; /* Gray background for disabled buttons */
+  color: #777; /* Light gray text */
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+  opacity: 0.6; /* Optional: Lower opacity for a disabled look */
 }

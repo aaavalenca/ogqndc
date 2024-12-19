@@ -9,12 +9,6 @@ const ComicReader: React.FC = () => {
 
   const currentPage = comicData[currentPageIndex];
   const currentPanel = currentPage.panels[currentPanelIndex];
-  const [isWidthFit, setIsWidthFit] = useState(true); // Toggles between width and height fitting modes
-
-  const handleToggleZoom = () => {
-    setIsWidthFit((prev) => !prev);
-  };
-
 
   const nextPanel = () => {
     if (currentPanelIndex < currentPage.panels.length - 1) {
@@ -48,22 +42,6 @@ const ComicReader: React.FC = () => {
     }
   };
 
-  // Handle keyboard events
-  useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") {
-        previousPage();
-      } else if (event.key === "ArrowLeft") {
-        nextPage();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeydown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeydown);
-    };
-  }, [currentPage]);
 
   const readAloud = () => {
     const voices = window.speechSynthesis.getVoices();
@@ -86,52 +64,79 @@ const ComicReader: React.FC = () => {
     speech.lang = "pt-BR";
     window.speechSynthesis.speak(speech);
   };
+
+  // Handle keyboard events
+  useEffect(() => {
+    const handleKeydown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case "ArrowLeft": // Navigate to the previous page
+          previousPage();
+          break;
+        case "ArrowRight": // Navigate to the next page
+          nextPage();
+          break;
+        case "ArrowDown": // Navigate to the next panel
+          nextPanel();
+          break;
+        case "ArrowUp": // Navigate to the previous panel
+          prevPanel();
+          break;
+        case " ": // Spacebar for reading aloud
+          event.preventDefault(); // Prevent default scroll behavior
+          readAloud();
+          break;
+        default:
+          break;
+      }
+    };
+  
+    window.addEventListener("keydown", handleKeydown);
+  
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  }, [currentPage, currentPanelIndex]);
   
 
   return (
-    <div>
+    <div className={styles["container"]}>
+        <div className={styles["image-container"]}>
+            <img
+                src={currentPage.page}
+                alt={currentPage.overall}
+                className={styles["responsive-image"]}
+            />
+        </div>
 
-    <div className={styles["image-container"]}>
-      <img
-        src={currentPage.page}
-        alt={currentPage.overall}
-        className={`${styles['responsive-image']} ${
-            isWidthFit ? styles['width-fit'] : styles['height-fit']
-          }`}
-        onClick={handleToggleZoom}
-      />
-    </div>
-
-    <div className={styles["button-container"]}>
-      <button
-          onClick={previousPage}
-          disabled={currentPageIndex === 0}
-        >
-          Página anterior
-        </button>
-
-        <button onClick={prevPanel} disabled={currentPageIndex === 0 && currentPanelIndex === 0}>
-          Quadro anterior
-        </button>
-
-        <button onClick={readAloud}>Ler em voz alta</button>
-        <button
-          onClick={nextPanel}
-          disabled={currentPageIndex === comicData.length - 1 && currentPanelIndex === currentPage.panels.length - 1}
-        >
-          Quadro seguinte
-        </button>
-
-        <button
-          onClick={nextPage}
-          disabled={currentPageIndex === comicData.length - 1}
-        >
-          Página seguinte
-        </button>
-        
-    </div>
-        
-    </div>
+        <div className={styles["button-container"]}>
+            <button onClick={previousPage} disabled={currentPageIndex === 0}>
+                Página anterior
+            </button>
+            <button
+                onClick={prevPanel}
+                disabled={currentPageIndex === 0 && currentPanelIndex === 0}
+            >
+                Quadro anterior
+            </button>
+            <button onClick={readAloud}>Ler quadro {currentPanelIndex + 1} de {currentPage.panels.length} em voz alta</button>
+            <button
+                onClick={nextPanel}
+                disabled={
+                currentPageIndex === comicData.length - 1 &&
+                currentPanelIndex === currentPage.panels.length - 1
+                }
+            >
+                Quadro seguinte
+            </button>
+            <button
+                onClick={nextPage}
+                disabled={currentPageIndex === comicData.length - 1}
+            >
+                Página seguinte
+            </button>
+        </div>
+  </div>
+  
   );
 };
 
